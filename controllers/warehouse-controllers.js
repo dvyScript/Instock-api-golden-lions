@@ -17,10 +17,10 @@ const deleteWarehouse = async (req, res) => {
             .where({ id: warehouseID })
             .del()
 
-        res.send({message: 'Warehouse deleted'})
+        res.status(200).json({message: 'Warehouse deleted'})
     } catch (error) {
         console.error(error);
-        res.status(500).send('Unable to delete warehouse')
+        res.status(500).json({error: 'Unable to delete warehouse'})
     }
 }
 
