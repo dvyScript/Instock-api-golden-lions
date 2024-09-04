@@ -14,7 +14,6 @@ export function up(knex) {
         table.string('item_name').notNullable();
         table.string('description').notNullable();
         table.string('category').notNullable();
-        table.string('status').notNullable();
         table.integer('quantity').notNullable();
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
