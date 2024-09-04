@@ -10,7 +10,7 @@ const deleteWarehouse = async (req, res) => {
         const warehouse = await knex('warehouses').where({ id: warehouseID }).first();
 
         if (!warehouse) {
-            return res.status.(404).send('Warehouse not found');
+            return res.status(404).send('Warehouse not found');
         }
 
         await knex('warehouses')
