@@ -9,7 +9,7 @@ const{ PORT } = process.env;
 
 app.use(cors());
 
-app.use('/inventory', inventoryRouter);
+app.use('/inventories', inventoryRouter);
 
 app.use('/warehouses', warehousesRouter);
 
