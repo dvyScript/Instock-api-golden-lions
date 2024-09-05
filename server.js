@@ -8,6 +8,7 @@ const app = express();
 const{ PORT } = process.env;
 
 app.use(cors());
+app.use(express.json());
 
 app.use('/inventories', inventoryRouter);
 
