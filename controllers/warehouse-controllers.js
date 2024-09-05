@@ -16,6 +16,29 @@ const index = async (_req, res) => {
     }
 };
 
+const getInventoriesWithWarehouseId = async (req, res) => {
+    try {
+        const inventoryList = await knex("inventories")
+        .select("inventories.*","warehouses.warehouse_name as warehouse_name")
+        .leftJoin("warehouses","inventories.warehouse_id","warehouses.id")
+        .where({warehouse_id: req.params.id,});
+
+        if (inventoryList.length === 0) {
+            res.status(404).json({
+                error: `Error getting inventory list, warehouse id: ${req.params.id} does not exist`,
+            });
+        } else{
+            res.status(200).json(inventoryList);
+        }
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: `Error getting inventory list given warehouse id:${req.params.id} from database`,
+        });
+    }
+};
+
 const deleteWarehouse = async (req, res) => {
     try {
         console.log(req.params.warehouseId)
@@ -40,5 +63,6 @@ const deleteWarehouse = async (req, res) => {
 
 export {
     index ,
+    getInventoriesWithWarehouseId,
     deleteWarehouse
 }
