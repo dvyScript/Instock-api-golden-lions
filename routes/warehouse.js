@@ -27,7 +27,9 @@ router.use("/:id/inventories", async (req, res) => {
 });
 
 router
-    .get("/", warehouseController.index)
-    .delete ('/warehouses/:warehouseId', warehouseController.deleteWarehouse)
+    .get("/", warehouseController.index);
+
+router
+    .delete('/:warehouseId', warehouseController.deleteWarehouse)
 
 export default router;
