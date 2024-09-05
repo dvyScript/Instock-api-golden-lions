@@ -3,7 +3,7 @@ import configuration from "../knexfile.js";
 
 const knex = initKnex(configuration);
 
-const getInventoryList = async (req, res) => {
+const getInventoryList = async (_req, res) => {
   try {
     const inventoryList = await knex("inventories")
       .select("inventories.*", "warehouses.warehouse_name as warehouse_name")
