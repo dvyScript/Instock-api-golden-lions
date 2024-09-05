@@ -1,19 +1,43 @@
 import initKnex from "knex";
-import configuration from "../knexfile.js";
+import configuration from "./../knexfile.js";
 
 const knex = initKnex(configuration);
 
 // default entry: root
 const index = async (_req, res) => {
-  try {
-    const allWarehouses = await knex("warehouses");
-    res.status(200).json(allWarehouses);
-  } catch (err) {
-    console.log(err);
-    res
-      .status(400)
-      .json({ message: `Failed to retrieve all warehouses: ${err}` });
-  }
+    try {
+        const allWarehouses = await knex("warehouses");
+        res.status(200).json(allWarehouses);
+    } catch (err) {
+        console.log(err);
+        res
+            .status(400)
+            .json({ message: `Failed to retrieve all warehouses: ${err}` });
+    }
 };
 
-export { index };
+const deleteWarehouse = async (req, res) => {
+    try {
+        const { warehouseID } = req.params;
+
+        const warehouse = await knex('warehouses').where({ id: warehouseID }).first();
+
+        if (!warehouse) {
+            return res.status(404).send('Warehouse not found');
+        }
+
+        await knex('warehouses')
+            .where({ id: warehouseID })
+            .del()
+
+        res.status(204).send
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Unable to delete warehouse' })
+    }
+}
+
+export {
+    index ,
+    deleteWarehouse
+}
