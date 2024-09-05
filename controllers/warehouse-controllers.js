@@ -18,19 +18,20 @@ const index = async (_req, res) => {
 
 const deleteWarehouse = async (req, res) => {
     try {
-        const { warehouseID } = req.params;
-
-        const warehouse = await knex('warehouses').where({ id: warehouseID }).first();
+        console.log(req.params.warehouseId)
+        const selectedWarehouse = req.params.warehouseId;
+        const warehouse = await knex("warehouses").where({ id: selectedWarehouse }).first();
 
         if (!warehouse) {
             return res.status(404).send('Warehouse not found');
         }
 
+
         await knex('warehouses')
-            .where({ id: warehouseID })
+            .where({ id: selectedWarehouse })
             .del()
 
-        res.status(204).send
+        res.status(204).send(warehouse);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Unable to delete warehouse' })
