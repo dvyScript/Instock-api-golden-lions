@@ -26,6 +26,8 @@ router.use("/:id/inventories", async (req, res) => {
     }
 });
 
+router.get('/:id', warehouseController.getSingleWarehouse); 
+
 router
     .get("/", warehouseController.index);
 
