@@ -6,13 +6,8 @@ const router = express.Router();
 const knex = initKnex(configuration);
 
 router
-    .get("/", inventoryController.index);
-
-router
-    .post("/", inventoryController.createInventoryItem);
-
-router.get("/", inventoryController.index);
-router.post("/", inventoryController.createInventoryItem);
-router.delete("/:inventoryId", inventoryController.deleteInventoryById);
+    .get("/", inventoryController.index)
+    .post("/", inventoryController.createInventoryItem)
+    .delete("/:inventoryId", inventoryController.deleteInventoryById);
 
 export default router;
