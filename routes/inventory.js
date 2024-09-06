@@ -3,8 +3,9 @@ import * as inventoryController from "../controllers/inventory-controllers.js";
 
 const router = express.Router();
 
-router.get("/", inventoryController.index);
-router.post("/", inventoryController.createInventoryItem);
-router.delete("/:inventoryId", inventoryController.deleteInventoryById);
+router
+    .get("/", inventoryController.index)
+    .post("/", inventoryController.createInventoryItem)
+    .delete("/:inventoryId", inventoryController.deleteInventoryById);
 
 export default router;

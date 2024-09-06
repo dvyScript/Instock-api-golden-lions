@@ -8,17 +8,10 @@ const router = express.Router();
 const knex = initKnex(configuration);
 
 router
-    .get("/", warehouseController.index);
-
-router
+    .get('/:id', warehouseController.getSingleWarehouse)
     .get("/:id/inventories", warehouseController.getInventoriesWithWarehouseId)
-
-router.get('/:warehouseId/inventories/:inventoryId', getInventoryItemById);
-
-router
-    .get('/:id', warehouseController.getSingleWarehouse); 
-
-router
-    .delete('/:warehouseId', warehouseController.deleteWarehouse)
+    .get("/", warehouseController.index)
+    .get('/:warehouseId/inventories/:inventoryId', getInventoryItemById)
+    .delete('/:warehouseId', warehouseController.deleteWarehouse);
 
 export default router;
