@@ -16,6 +16,32 @@ const index = async (_req, res)=>{
     }
 };
 
+const getInventoryItemById = async (req, res) => {
+    const { warehouseId, inventoryId } = req.params;
+    
+        try {
+        const inventoryItem = await knex("inventories")
+        .select("inventories.*", "warehouses.warehouse_name")
+        .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id")
+        .where({
+        "inventories.id": inventoryId,
+        "inventories.warehouse_id": warehouseId,
+        })
+        .first();
+
+        if (!inventoryItem) {
+            return res
+            .status(404)
+            .json({ error: `Inventory item with id ${inventoryId} not found in warehouse ${warehouseId}` });
+        }
+
+        res.status(200).json(inventoryItem);
+        } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Error retrieving inventory item from database" });
+        }
+    };
+
 const createInventoryItem = async (req, res)=>{
     try{
         const {warehouse_id, item_name, description, category, status, quantity} = req.body;
@@ -48,5 +74,6 @@ const createInventoryItem = async (req, res)=>{
 
 export {
     index ,
-    createInventoryItem
+    createInventoryItem,
+    getInventoryItemById
 }
