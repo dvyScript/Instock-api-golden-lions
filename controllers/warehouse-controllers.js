@@ -138,10 +138,44 @@ const editWarehouse = async (req, res) => {
         });
     }
 };
+
+const addWarehouse = async (req, res) => {
+    try {
+        const {
+            warehouse_name,
+            address,
+            city,
+            country,
+            contact_name,
+            contact_position,
+            contact_phone,
+            contact_email
+        } = req.body;
+
+        if (
+            !warehouse_name ||
+            !address ||
+            !city ||
+            !country ||
+            !contact_name ||
+            !contact_position ||
+            !contact_phone ||
+            !contact_email
+        ) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: `Error adding the new warehouse to the database`,
+        });
+    }
+}
 export {
     index,
     getInventoriesWithWarehouseId,
     getSingleWarehouse,
     deleteWarehouse,
-    editWarehouse
+    editWarehouse,
+    addWarehouse
 }
