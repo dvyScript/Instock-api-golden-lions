@@ -79,7 +79,7 @@ const deleteWarehouse = async (req, res) => {
 
 const editWarehouse = async (req, res) => {
     try {
-        const warehouseId = req.params.id;
+        const warehouseId = req.params.warehouseId;
         const {
             warehouse_name,
             address,
@@ -108,7 +108,7 @@ const editWarehouse = async (req, res) => {
             .first();
 
         if (!warehouse) {
-            return res.status(404).json({ message: `There is no warehouse with the id ${req.params.id}` })
+            return res.status(404).json({ message: `There is no warehouse with the id ${warehouseId}` })
         }
 
         await knex('warehouses')
@@ -134,7 +134,7 @@ const editWarehouse = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            error: `Error updating warehouse with id ${req.params.id} in the database`,
+            error: `Error updating warehouse with id ${warehouseId} in the database`,
         });
     }
 };
@@ -143,5 +143,5 @@ export {
     getInventoriesWithWarehouseId,
     getSingleWarehouse,
     deleteWarehouse,
-    editWarehouse,
+    editWarehouse
 }

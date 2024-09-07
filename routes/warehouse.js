@@ -13,5 +13,6 @@ router
     .get("/", warehouseController.index)
     .get('/:warehouseId/inventories/:inventoryId', getInventoryItemById)
     .delete('/:warehouseId', warehouseController.deleteWarehouse)
-    .put('/warehouses/:warehouseId', warehouseController.editWarehouse);
+    .put('/:warehouseId', warehouseController.editWarehouse);
+
 export default router;
