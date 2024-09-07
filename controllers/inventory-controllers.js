@@ -150,5 +150,27 @@ const deleteInventoryById = async (req, res) => {
   }
 };
 
+const editInventoryItem = async (req,res) =>{
+  const { inventoryId } = req.params;
+  const updatedItem = req.body;
 
-export { index, createInventoryItem, getInventoryItemById, deleteInventoryById }
+  try{
+    await knex('inventories')
+      .where({id: inventoryId})
+      .update({
+        warehouse_id: updatedItem.warehouse_id,
+        item_name: updatedItem.item_name,
+        description: updatedItem.description,
+        category: updatedItem.category,
+        status: updatedItem.status,
+        quantity: updatedItem.quantity,
+        updated_at: knex.fn.now()
+      })
+    res.status(200).json({message: 'Inventory item updated successfully'})
+  }catch (error){
+    console.error('error updating inventory item:', error)
+    res.status(500).json({message: 'failed to update inventory item'})
+  }
+}
+
+export { index, createInventoryItem, getInventoryItemById, deleteInventoryById, editInventoryItem }
