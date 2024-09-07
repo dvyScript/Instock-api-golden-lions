@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
     "db:migrate": "knex migrate:latest",
     "db:seed": "knex seed:run",
     "dev": "node --watch server.js"
