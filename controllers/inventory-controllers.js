@@ -150,13 +150,39 @@ const deleteInventoryById = async (req, res) => {
   }
 };
 
-const editInventoryItem = async (req,res) =>{
-  const { inventoryId } = req.params;
-  const updatedItem = req.body;
+const editInventoryItem = async (req, res) => {
+  try {
+    const { inventoryId } = req.params;
+    const updatedItem = req.body;
 
-  try{
+    if (
+      updatedItem.item_name === undefined ||
+      updatedItem.description === undefined ||
+      updatedItem.category === undefined ||
+      updatedItem.status === undefined ||
+      updatedItem.quantity === undefined ||
+      updatedItem.warehouse_id === undefined
+    ) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    const warehouse = await knex('warehouses').where({ id: updatedItem.warehouse_id }).first();
+    if(!warehouse){
+      return res.status(400).json({ message: `There is no warehouse with the id ${updatedItem.warehouse_id}` })
+    }
+
+    const item = await knex('inventories').where({ id: inventoryId }).first();
+    if (!item) {
+      return res.status(404).json({ message: `There is no item with the id ${inventoryId}` })
+    }
+
+    const quantity = Number(updatedItem.quantity);
+    if (isNaN(quantity)) {
+      return res.status(400).json({ message: `Quantity must be a number it currently is a ${typeof updatedItem.quantity}` })
+    }
+
     await knex('inventories')
-      .where({id: inventoryId})
+      .where({ id: inventoryId })
       .update({
         warehouse_id: updatedItem.warehouse_id,
         item_name: updatedItem.item_name,
@@ -166,10 +192,10 @@ const editInventoryItem = async (req,res) =>{
         quantity: updatedItem.quantity,
         updated_at: knex.fn.now()
       })
-    res.status(200).json({message: 'Inventory item updated successfully'})
-  }catch (error){
+    res.status(200).json({ message: 'Inventory item updated successfully', item: updatedItem })
+  } catch (error) {
     console.error('error updating inventory item:', error)
-    res.status(500).json({message: 'failed to update inventory item'})
+    res.status(500).json({ message: 'failed to update inventory item' })
   }
 }
 
