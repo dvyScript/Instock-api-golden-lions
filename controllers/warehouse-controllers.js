@@ -176,6 +176,20 @@ const addWarehouse = async (req, res) => {
             return res.status(400).json({ message: 'Invalid phone Number format' })
         }
 
+        const newWarehouse = await knex('warehouse')
+            .insert({
+                warehouse_name,
+                address,
+                city,
+                country,
+                contact_name,
+                contact_position,
+                contact_phone,
+                contact_email,
+                created_at: knex.fn.now()
+            })
+            .returning('*')
+        res.status(201).json(newWarehouse[0]);    
     } catch (err) {
         console.log(err);
         res.status(500).json({
