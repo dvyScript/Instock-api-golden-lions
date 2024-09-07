@@ -164,6 +164,18 @@ const addWarehouse = async (req, res) => {
         ) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(contact_email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        // Validate phone number format
+        const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(\d{3})\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+        if (!phoneRegex.test(contact_phone)) {
+            return res.status(400).json({ message: 'Invalid phone Number format' })
+        }
+
     } catch (err) {
         console.log(err);
         res.status(500).json({
