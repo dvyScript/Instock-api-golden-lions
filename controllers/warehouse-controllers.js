@@ -103,6 +103,19 @@ const editWarehouse = async (req, res) => {
         ) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(contact_email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        // Validate phone number format
+        const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(\d{3})\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+        if (!phoneRegex.test(contact_phone)) {
+            return res.status(400).json({ message: 'Invalid phone Number format' })
+        }
+
         const warehouse = await knex('warehouses')
             .where({ id: warehouseId })
             .first();
@@ -176,7 +189,7 @@ const addWarehouse = async (req, res) => {
             return res.status(400).json({ message: 'Invalid phone Number format' })
         }
 
-        const newWarehouse = await knex('warehouse')
+        const newWarehouse = await knex('warehouses')
             .insert({
                 warehouse_name,
                 address,
@@ -187,13 +200,23 @@ const addWarehouse = async (req, res) => {
                 contact_phone,
                 contact_email,
                 created_at: knex.fn.now()
-            })
-            .returning('*')
-        res.status(201).json(newWarehouse[0]);    
+            });
+
+        res.status(201).json({
+            id: newWarehouse[0],
+            warehouse_name,
+            address,
+            city,
+            country,
+            contact_name,
+            contact_position,
+            contact_phone,
+            contact_email,
+        });
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            error: `Error adding the new warehouse to the database`,
+            error: "Error adding the new warehouse to the database",
         });
     }
 }
