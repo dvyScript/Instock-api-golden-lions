@@ -1,5 +1,5 @@
 //Validate form inputs
-export const validateWarehouseFields = (req, res, next) => {
+export const validateRequiredFields = (req, res, next) => {
     const {
         warehouse_name,
         address,
@@ -24,6 +24,11 @@ export const validateWarehouseFields = (req, res, next) => {
         return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    next();
+};
+
+export const validateEmailAndPhone = (req, res, next) => {
+    const { contact_email, contact_phone } = req.body;
     //Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(contact_email)) {
