@@ -3,10 +3,14 @@ import configuration from "./../knexfile.js";
 
 const knex = initKnex(configuration);
 
-// default entry: root
 const index = async (_req, res) => {
     try {
-        const allWarehouses = await knex("warehouses");
+        const columnName = _req.query.sort_by || 'id';
+        const orderBy = _req.query.order_by === 'desc' ? 'desc' : 'asc'; 
+
+        const allWarehouses = await knex("warehouses")
+        .orderBy(columnName, orderBy);
+        
         res.status(200).json(allWarehouses);
     } catch (err) {
         console.log(err);
@@ -91,18 +95,6 @@ const editWarehouse = async (req, res) => {
             contact_email
         } = req.body;
 
-        if (
-            !warehouse_name ||
-            !address ||
-            !city ||
-            !country ||
-            !contact_name ||
-            !contact_position ||
-            !contact_phone ||
-            !contact_email
-        ) {
-            return res.status(400).json({ message: 'All fields are required.' });
-        }
         const warehouse = await knex('warehouses')
             .where({ id: warehouseId })
             .first();
@@ -138,10 +130,56 @@ const editWarehouse = async (req, res) => {
         });
     }
 };
+
+const addWarehouse = async (req, res) => {
+    try {
+        const {
+            warehouse_name,
+            address,
+            city,
+            country,
+            contact_name,
+            contact_position,
+            contact_phone,
+            contact_email
+        } = req.body;
+
+        const newWarehouse = await knex('warehouses')
+            .insert({
+                warehouse_name,
+                address,
+                city,
+                country,
+                contact_name,
+                contact_position,
+                contact_phone,
+                contact_email,
+                created_at: knex.fn.now()
+            });
+
+        res.status(201).json({
+            id: newWarehouse[0],
+            warehouse_name,
+            address,
+            city,
+            country,
+            contact_name,
+            contact_position,
+            contact_phone,
+            contact_email,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Error adding the new warehouse to the database",
+        });
+    }
+}
 export {
     index,
     getInventoriesWithWarehouseId,
     getSingleWarehouse,
     deleteWarehouse,
-    editWarehouse
+    editWarehouse,
+    addWarehouse
 }
