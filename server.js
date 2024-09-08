@@ -14,8 +14,6 @@ app.use('/inventories', inventoryRouter);
 
 app.use('/warehouses', warehousesRouter);
 
-app.use('/warehouses/:warehouseId/inventories/:inventoryId', inventoryRouter);
-
 app.use('/', (_req, res) => {
     res.send("Hello API routes!!!");
 });
