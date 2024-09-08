@@ -72,22 +72,19 @@ const index = async (_req, res) => {
 // };
 
 const getInventoryItemById = async (req, res) => {
-  const inventoryId = req.params.inventoryId;
-  console.log(req.params);
+  const { inventoryId } = req.params;
 
   try {
     const inventoryItem = await knex("inventories")
-      .select("inventories.*", "warehouses.warehouse_name")
+      .select("inventories.*", "warehouses.warehouse_name as warehouse_name")
       .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id")
-      .where({
-        "inventories.id": inventoryId,
-      })
+      .where("inventories.id", inventoryId)
       .first();
 
     if (!inventoryItem) {
       return res
         .status(404)
-        .json({ error: `Inventory item with id ${inventoryId} not found in warehouse ${warehouseId}` });
+        .json({ error: `Inventory item with id ${inventoryId} ` });
     }
 
     res.status(200).json(inventoryItem);
