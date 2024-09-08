@@ -5,7 +5,12 @@ const knex = initKnex(configuration);
 
 const index = async (_req, res) => {
     try {
-        const allWarehouses = await knex("warehouses");
+        const columnName = _req.query.sort_by || 'id';
+        const orderBy = _req.query.order_by === 'desc' ? 'desc' : 'asc'; 
+
+        const allWarehouses = await knex("warehouses")
+        .orderBy(columnName, orderBy);
+        
         res.status(200).json(allWarehouses);
     } catch (err) {
         console.log(err);
