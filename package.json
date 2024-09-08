@@ -2,12 +2,13 @@
   "name": "instock-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "db:migrate": "knex migrate:latest",
     "db:seed": "knex seed:run",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

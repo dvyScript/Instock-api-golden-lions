@@ -84,7 +84,6 @@ const deleteInventoryById = async (req, res) => {
 
     }
 
-    // no content response:
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({
