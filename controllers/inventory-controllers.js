@@ -5,10 +5,14 @@ const knex = initKnex(configuration);
 
 const index = async (_req, res) => {
   try {
+    const colName = _req.query.sort_by || 'id';
+    const orderBy = _req.query.order_by === 'desc' ? 'desc' : 'asc'; 
+
     const inventoryList = await knex("inventories")
       .select("inventories.*", "warehouses.warehouse_name as warehouse_name")
-      .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id");
-    res.json(inventoryList);
+      .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id")
+      .orderBy(colName, orderBy);
+    res.status(200).json(inventoryList);
   } catch (err) {
     console.log(err);
     res
@@ -84,7 +88,6 @@ const deleteInventoryById = async (req, res) => {
 
     }
 
-    // no content response:
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({
@@ -120,7 +123,7 @@ const editInventoryItem = async (req, res) => {
     }
 
     const quantity = (updatedItem.quantity);
-    console.log(quantity)
+
     if (!Number.isInteger(quantity)) {
       return res.status(400).json({ message: `Quantity must be a number it currently is a ${typeof updatedItem.quantity}` })
     }
