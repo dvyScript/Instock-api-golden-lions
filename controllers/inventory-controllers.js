@@ -72,7 +72,8 @@ const index = async (_req, res) => {
 // };
 
 const getInventoryItemById = async (req, res) => {
-  const { warehouseId, inventoryId } = req.params;
+  const inventoryId = req.params.inventoryId;
+  console.log(req.params);
 
   try {
     const inventoryItem = await knex("inventories")
@@ -80,7 +81,6 @@ const getInventoryItemById = async (req, res) => {
       .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id")
       .where({
         "inventories.id": inventoryId,
-        "inventories.warehouse_id": warehouseId,
       })
       .first();
 

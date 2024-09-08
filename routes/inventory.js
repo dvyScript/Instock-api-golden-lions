@@ -9,6 +9,7 @@ const knex = initKnex(configuration);
 
 router
     .get("/", inventoryController.index)
+    .get("/:inventoryId", inventoryController.getInventoryItemById)
     .post("/", inventoryController.createInventoryItem)
     .delete("/:inventoryId", inventoryController.deleteInventoryById);
 
