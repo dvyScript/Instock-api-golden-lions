@@ -11,7 +11,6 @@ router
     .get('/:id', warehouseController.getSingleWarehouse)
     .get("/:id/inventories", warehouseController.getInventoriesWithWarehouseId)
     .get("/", warehouseController.index)
-    .get('/:warehouseId/inventories/:inventoryId', getInventoryItemById)
     .delete('/:warehouseId', warehouseController.deleteWarehouse)
     .put('/:warehouseId', warehouseController.editWarehouse);
 
