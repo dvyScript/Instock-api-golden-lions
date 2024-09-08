@@ -3,7 +3,6 @@ import configuration from "./../knexfile.js";
 
 const knex = initKnex(configuration);
 
-// default entry: root
 const index = async (_req, res) => {
     try {
         const allWarehouses = await knex("warehouses");
