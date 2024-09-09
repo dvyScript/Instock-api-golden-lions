@@ -5,7 +5,7 @@ import { validateRequiredFields, validateEmailAndPhone } from "../middleware/mid
 const router = express.Router();
 
 router
-    .get('/:id', warehouseController.getSingleWarehouse)
+    .get('/:warehouseId', warehouseController.getSingleWarehouse)
     .get("/:id/inventories", warehouseController.getInventoriesWithWarehouseId)
     .get("/", warehouseController.index)
     .delete('/:warehouseId', warehouseController.deleteWarehouse)

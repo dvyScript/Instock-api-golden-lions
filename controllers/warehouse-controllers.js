@@ -43,7 +43,7 @@ const getInventoriesWithWarehouseId = async (req, res) => {
 
 const getSingleWarehouse = async (req, res) => {
     try {
-        const warehouseId = req.params.id;
+        const warehouseId = req.params.warehouseId;
         const warehouse = await knex("warehouses").where({ id: warehouseId }).first();
 
         if (!warehouse) {
