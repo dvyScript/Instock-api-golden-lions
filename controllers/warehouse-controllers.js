@@ -24,7 +24,7 @@ const getInventoriesWithWarehouseId = async (req, res) => {
         const inventoryList = await knex("inventories")
             .select("inventories.*", "warehouses.warehouse_name as warehouse_name")
             .leftJoin("warehouses", "inventories.warehouse_id", "warehouses.id")
-            .where({ warehouse_id: req.params.id, });
+            .where({ warehouse_id: req.params.warehouseId, });
 
         if (inventoryList.length === 0) {
             res.status(404).json({

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
     .get('/:warehouseId', warehouseController.getSingleWarehouse)
-    .get("/:id/inventories", warehouseController.getInventoriesWithWarehouseId)
+    .get("/:warehouseId/inventories", warehouseController.getInventoriesWithWarehouseId)
     .get("/", warehouseController.index)
     .delete('/:warehouseId', warehouseController.deleteWarehouse)
     .put('/:warehouseId', validateRequiredFields, validateEmailAndPhone, warehouseController.editWarehouse)
