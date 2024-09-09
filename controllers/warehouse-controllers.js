@@ -28,7 +28,7 @@ const getInventoriesWithWarehouseId = async (req, res) => {
 
         if (inventoryList.length === 0) {
             res.status(404).json({
-                error: `Error getting inventory list, warehouse id: ${req.params.id} does not exist`,
+                error: `Error getting inventory list, warehouse id: ${req.params.warehouseId} does not exist`,
             });
         } else {
             res.status(200).json(inventoryList);
@@ -36,7 +36,7 @@ const getInventoriesWithWarehouseId = async (req, res) => {
 
     } catch (err) {
         res.status(500).json({
-            error: `Error getting inventory list given warehouse id:${req.params.id} from database`,
+            error: `Error getting inventory list given warehouse id:${req.params.warehouseId} from database`,
         });
     }
 };
