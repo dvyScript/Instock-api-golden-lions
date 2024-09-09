@@ -14,7 +14,6 @@ const index = async (_req, res) => {
       .orderBy(colName, orderBy);
     res.status(200).json(inventoryList);
   } catch (err) {
-    console.log(err);
     res
       .status(400)
       .json({ error: "Error getting inventory list from database" });
@@ -39,7 +38,6 @@ const getInventoryItemById = async (req, res) => {
 
     res.status(200).json(inventoryItem);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error retrieving inventory item from database" });
   }
 };
@@ -70,7 +68,6 @@ const createInventoryItem = async (req, res) => {
     }
 
   } catch (err) {
-    console.log(err);
     res.status(400).json({ error: "Error creating a new inventory list" });
   }
 }
@@ -141,7 +138,6 @@ const editInventoryItem = async (req, res) => {
       })
     res.status(200).json({ message: 'Inventory item updated successfully', item: updatedItem })
   } catch (error) {
-    console.error('error updating inventory item:', error)
     res.status(500).json({ message: 'failed to update inventory item' })
   }
 }
