@@ -13,7 +13,6 @@ const index = async (_req, res) => {
         
         res.status(200).json(allWarehouses);
     } catch (err) {
-        console.log(err);
         res
             .status(400)
             .json({ message: `Failed to retrieve all warehouses: ${err}` });
@@ -36,7 +35,6 @@ const getInventoriesWithWarehouseId = async (req, res) => {
         }
 
     } catch (err) {
-        console.log(err);
         res.status(500).json({
             error: `Error getting inventory list given warehouse id:${req.params.id} from database`,
         });
@@ -54,14 +52,12 @@ const getSingleWarehouse = async (req, res) => {
 
         res.status(200).json(warehouse);
     } catch (err) {
-        console.error(err);
         res.status(500).json({ message: `Failed to retrieve warehouse: ${err}` });
     }
 };
 
 const deleteWarehouse = async (req, res) => {
     try {
-        console.log(req.params.warehouseId)
         const selectedWarehouse = req.params.warehouseId;
         const warehouse = await knex("warehouses").where({ id: selectedWarehouse }).first();
 
@@ -76,7 +72,6 @@ const deleteWarehouse = async (req, res) => {
 
         res.status(204).send(warehouse);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Unable to delete warehouse' })
     }
 }
@@ -124,7 +119,6 @@ const editWarehouse = async (req, res) => {
         return res.status(200).json(editedWarehouse);
 
     } catch (err) {
-        console.log(err);
         res.status(500).json({
             error: `Error updating warehouse with id ${warehouseId} in the database`,
         });
@@ -169,7 +163,6 @@ const addWarehouse = async (req, res) => {
             contact_email,
         });
     } catch (err) {
-        console.log(err);
         res.status(500).json({
             error: "Error adding the new warehouse to the database",
         });
